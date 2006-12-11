@@ -1,0 +1,177 @@
+% -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+%\VignetteIndexEntry{affydata primer}
+%\VignetteKeywords{Preprocessing, Affymetrix}
+%\VignetteDepends{affydata}
+%\VignettePackage{affydata}
+%documentclass[12pt, a4paper]{article}
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,pstricks}
+\usepackage{hyperref}
+\usepackage[authoryear,round]{natbib}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
+\begin{document}
+\title{Textual description of affydata}
+
+\maketitle
+This is a simple data package. It contains an example data set
+containing part of the data from a Dilution experiment. The full data
+is publicly available from Gene Logic
+\url{http://qolotus02.genelogic.com/datasets.nsf/}.
+The help file obtained via \verb+?Dilution+
+describes the data set.
+
+\section{Normalization of Dilution Data}
+We start by loading the library and the data.
+
+<<results=hide>>=
+library(affydata)
+data(Dilution)
+@
+
+This will create the \verb+Dilution+ object of class \Robject{AffyBatch}.
+As described in the \verb+affy+ vignette, \Rfunction{print} (or \Rfunction{show}) will display summary information. 
+These objects represent data from one
+experiment. The \Robject{AffyBatch} class combines the
+information of various {\it CEL} files with a common {\it CDF} file. This
+class is designed to keep information of one experiment. The probe
+level data is contained in this object.
+
+
+<<>>=
+Dilution
+@
+
+The data in \verb+Dilution+ is a small sample of probe sets from 2
+sets of duplicate arrays hybridized with different concentrations of the
+same RNA.  This information is part of the \Robject{AffyBatch} and can be
+accessed with the \verb+phenoData+ and \verb+pData+ methods:
+<<>>=
+phenoData(Dilution)
+pData(Dilution)
+@
+
+\label{s1.4}
+Various researchers have pointed out the need for normalization of Affymetrix
+arrays. Let's look at an  example.
+The first two arrays in \verb+Dilution+ are technical replicates (same RNA),
+so the intensities obtained from these should be about the same. The
+second 2 are also replicates. The second arrays are hybridized to
+twice as much RNA so the intensities should be in general
+bigger. However, notice that the scanner effect is stronger than
+the RNA concentration effect.
+
+<<>>=
+pData(Dilution) ##notice the scanner covariate
+@
+
+The \Rfunction{boxplot} method for the \verb+AffyBatch+ class, shown in
+Figure \ref{f4},  shows this is the case.
+
+The method \Rfunction{boxplot} can be used to show $PM$, $MM$ or both intensities.
+
+\begin{figure}[htbp]
+\begin{center}
+<<fig=TRUE>>=
+par(mfrow=c(1,1))
+boxplot(Dilution,col=c(2,2,3,3))
+@
+\caption{\label{f4}Boxplot of arrays in dilution data.}
+\end{center}
+\end{figure}
+As discussed in the next section this plot shows that we need to
+normalize these arrays.
+
+
+
+Figure \ref{f4} shows the need for normalization. For example arrays
+scanned using scanner 1 are
+globally larger than those scanned with 2.
+
+Another way to see that normalization is needed is by looking at log ratio
+versus average log intensity (MVA) plots. The method \verb+mva.pairs+ will
+show all MVA plots of each pairwise comparison on the top right half and
+the interquartile range (IQR) of the log ratios on the bottom left half.
+For replicates and cases where most genes are not differentially expressed,
+we want the cloud of points to be around 0 and the IQR to be small.
+\begin{figure}[htbp]
+\begin{center}
+<<echo=F>>=
+options(warn=-1)
+@
+<<fig=TRUE>>=
+gn <- sample(geneNames(Dilution),100) ##pick only a few genes
+pms <- pm(Dilution[3:4],gn)
+mva.pairs(pms)
+@
+\caption{\label{f5}MVA pairs for first two arrays in dilution data}
+  \end{center}
+\end{figure}
+
+
+The method \verb+normalize+ lets one normalize the data.
+<<>>=
+normalized.Dilution <- merge(normalize(Dilution[1:2]),
+                             normalize(Dilution[3:4]))
+@
+We normalize the two concentration groups separately.
+Notice the function \verb+merge+ permits us to put together two
+\verb+AffyBatch+ objects.
+
+Various methods are available for normalization (see the help
+file). The default is quantile normalization.
+All the available methods are obtained using this function:
+<<>>=
+normalize.methods(Dilution)
+@
+and can be called using the \verb+method+ argument of the normalize
+function.
+
+Figures \ref{f4.2} and \ref{f5.2} show the boxplot and mva pairs plot after
+normalization. The normalization routine seems to correct the boxplots
+and mva plots.
+
+
+\begin{figure}[htbp]
+\begin{center}
+<<fig=TRUE>>=
+boxplot(normalized.Dilution,col=c(2,2,3,3))
+@
+\caption{\label{f4.2}Boxplot of first arrays in normalized
+dilution data.}
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+<<fig=TRUE>>=
+pms <- pm(normalized.Dilution[3:4],gn)
+mva.pairs(pms)
+@
+\caption{\label{f5.2}MVA pairs for first two replicate arrays in normalized
+dilution data}
+\end{center}
+\end{figure}
+
+
+
+\end{document}
+
+
+
+
+
+
