@@ -10,5 +10,5 @@ Description: Example datasets of a slightly large size. They represent
         'real world examples', unlike the artificial examples included
         in the package affy.
 License: GPL version 2 or newer
-biocViews: OneChannel, Microarray
+biocViews: ExperimentData, OneChannel, Microarray
 
