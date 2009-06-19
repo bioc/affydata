@@ -1,3 +1,4 @@
+
 % -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 %\VignetteIndexEntry{affydata primer}
 %\VignetteKeywords{Preprocessing, Affymetrix}
@@ -79,7 +80,7 @@ pData(Dilution) ##notice the scanner covariate
 @
 
 The \Rfunction{boxplot} method for the \verb+AffyBatch+ class, shown in
-Figure \ref{f4},  shows this is the case.
+Figure~\ref{f4},  shows this is the case.
 
 The method \Rfunction{boxplot} can be used to show $PM$, $MM$ or both intensities.
 
@@ -97,7 +98,7 @@ normalize these arrays.
 
 
 
-Figure \ref{f4} shows the need for normalization. For example arrays
+Figure~\ref{f4} shows the need for normalization. For example arrays
 scanned using scanner 1 are
 globally larger than those scanned with 2.
 
@@ -114,18 +115,19 @@ options(warn=-1)
 @
 <<fig=TRUE>>=
 gn <- sample(geneNames(Dilution),100) ##pick only a few genes
-pms <- pm(Dilution[3:4],gn)
+pms <- pm(Dilution[,3:4], gn)
 mva.pairs(pms)
 @
-\caption{\label{f5}MVA pairs for first two arrays in dilution data}
-  \end{center}
+\label{f5}
+\caption{MVA pairs for first two arrays in dilution data}
+\end{center}
 \end{figure}
 
 
 The method \verb+normalize+ lets one normalize the data.
 <<>>=
-normalized.Dilution <- merge(normalize(Dilution[1:2]),
-                             normalize(Dilution[3:4]))
+normalized.Dilution <- merge(normalize(Dilution[, 1:2]),
+                             normalize(Dilution[, 3:4]))
 @
 We normalize the two concentration groups separately.
 Notice the function \verb+merge+ permits us to put together two
@@ -140,7 +142,7 @@ normalize.methods(Dilution)
 and can be called using the \verb+method+ argument of the normalize
 function.
 
-Figures \ref{f4.2} and \ref{f5.2} show the boxplot and mva pairs plot after
+Figures~\ref{f4.2} and~\ref{f5.2} show the boxplot and mva pairs plot after
 normalization. The normalization routine seems to correct the boxplots
 and mva plots.
 
@@ -148,9 +150,10 @@ and mva plots.
 \begin{figure}[htbp]
 \begin{center}
 <<fig=TRUE>>=
-boxplot(normalized.Dilution,col=c(2,2,3,3))
+boxplot(normalized.Dilution, col=c(2,2,3,3), main="Normalized Arrays")
 @
-\caption{\label{f4.2}Boxplot of first arrays in normalized
+\label{f4.2}
+\caption{Boxplot of first arrays in normalized
 dilution data.}
   \end{center}
 \end{figure}
@@ -158,10 +161,11 @@ dilution data.}
 \begin{figure}[htbp]
 \begin{center}
 <<fig=TRUE>>=
-pms <- pm(normalized.Dilution[3:4],gn)
+pms <- pm(normalized.Dilution[,3:4],gn)
 mva.pairs(pms)
 @
-\caption{\label{f5.2}MVA pairs for first two replicate arrays in normalized
+\label{f5.2}
+\caption{MVA pairs for first two replicate arrays in normalized
 dilution data}
 \end{center}
 \end{figure}
