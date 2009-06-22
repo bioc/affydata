@@ -65,7 +65,6 @@ phenoData(Dilution)
 pData(Dilution)
 @
 
-\label{s1.4}
 Various researchers have pointed out the need for normalization of Affymetrix
 arrays. Let's look at an  example.
 The first two arrays in \verb+Dilution+ are technical replicates (same RNA),
@@ -90,7 +89,8 @@ The method \Rfunction{boxplot} can be used to show $PM$, $MM$ or both intensitie
 par(mfrow=c(1,1))
 boxplot(Dilution,col=c(2,2,3,3))
 @
-\caption{\label{f4}Boxplot of arrays in dilution data.}
+\label{f4}
+\caption{Boxplot of arrays in dilution data.}
 \end{center}
 \end{figure}
 As discussed in the next section this plot shows that we need to
@@ -108,11 +108,11 @@ show all MVA plots of each pairwise comparison on the top right half and
 the interquartile range (IQR) of the log ratios on the bottom left half.
 For replicates and cases where most genes are not differentially expressed,
 we want the cloud of points to be around 0 and the IQR to be small.
-\begin{figure}[htbp]
-\begin{center}
 <<echo=F>>=
 options(warn=-1)
 @
+\begin{figure}[htbp]
+\begin{center}
 <<fig=TRUE>>=
 gn <- sample(geneNames(Dilution),100) ##pick only a few genes
 pms <- pm(Dilution[,3:4], gn)
@@ -126,7 +126,7 @@ mva.pairs(pms)
 
 The method \verb+normalize+ lets one normalize the data.
 <<>>=
-normalized.Dilution <- merge(normalize(Dilution[, 1:2]),
+normalized.Dilution <- Biobase::combine(normalize(Dilution[, 1:2]),
                              normalize(Dilution[, 3:4]))
 @
 We normalize the two concentration groups separately.
@@ -155,13 +155,13 @@ boxplot(normalized.Dilution, col=c(2,2,3,3), main="Normalized Arrays")
 \label{f4.2}
 \caption{Boxplot of first arrays in normalized
 dilution data.}
-  \end{center}
+\end{center}
 \end{figure}
 
 \begin{figure}[htbp]
 \begin{center}
 <<fig=TRUE>>=
-pms <- pm(normalized.Dilution[,3:4],gn)
+pms <- pm(normalized.Dilution[, 3:4],gn)
 mva.pairs(pms)
 @
 \label{f5.2}
