@@ -1,5 +1,5 @@
 Package: affydata
-Version: 1.11.9
+Version: 1.11.10
 Date: 2006-12
 Title: Affymetrix Data for Demonstration Purpose
 Author: Bioconductor
@@ -9,6 +9,6 @@ Suggests: hgu95av2cdf, hgu133acdf
 Description: Example datasets of a slightly large size. They represent
         'real world examples', unlike the artificial examples included
         in the package affy.
-License: GPL version 2 or newer
+License: GPL (>= 2)
 biocViews: ExperimentData, OneChannel, Microarray
 
