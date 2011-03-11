@@ -28,12 +28,13 @@
 \title{Textual description of affydata}
 
 \maketitle
-This is a simple data package. It contains an example data set
-containing part of the data from a Dilution experiment. The full data
-is publicly available from Gene Logic
-\url{http://qolotus02.genelogic.com/datasets.nsf/}.
-The help file obtained via \verb+?Dilution+
-describes the data set.
+This is a simple {\it data package}.
+It provides an example dataset drawn from an actual Dilution
+experiment done by Gene Logic
+(\url{http://www.genelogic.com/support/scientific-studies/}).
+The full Dilution dataset is available on request
+({info@genelogic.com} or +1-800-GENELOGIC).
+The help file \verb+?Dilution+ describes the example dataset.
 
 \section{Normalization of Dilution Data}
 We start by loading the library and the data.
