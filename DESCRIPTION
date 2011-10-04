@@ -1,10 +1,10 @@
 Package: affydata
-Version: 1.11.11
-Date: 2011-02
+Version: 1.13.11
+Date: 2011-10
 Title: Affymetrix Data for Demonstration Purpose
 Author: Laurent Gautier <laurent@cbs.dtu.dk>
 Maintainer: Harris Jaffee <hj@jhu.edu>
-Depends: R (>= 2.4.0), affy (>= 1.23.4)
+Depends: R (>= 2.4.0), affy (>= 1.23.4), methods
 Suggests: hgu95av2cdf, hgu133acdf
 Description: Example datasets of a slightly large size. They represent
         'real world examples', unlike the artificial examples included
