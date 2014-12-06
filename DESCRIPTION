@@ -1,5 +1,5 @@
 Package: affydata
-Version: 1.15.0
+Version: 1.15.1
 Date: 2011-10
 Title: Affymetrix Data for Demonstration Purpose
 Author: Laurent Gautier <laurent@cbs.dtu.dk>
@@ -11,5 +11,4 @@ Description: Example datasets of a slightly large size. They represent
         'real world examples', unlike the artificial examples included
         in the package affy.
 License: GPL (>= 2)
-biocViews: ExperimentData, OneChannel, Microarray
-
+biocViews: ExperimentData, Tissue, MicroarrayData, TissueMicroarrayData
